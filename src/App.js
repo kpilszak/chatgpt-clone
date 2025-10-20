@@ -12,6 +12,12 @@ const App = () => {
     setCurrentTitle(null)
   }
 
+  const handleClick = (uniqueTitle) => {
+    setCurrentTitle(uniqueTitle)
+    setMessage(null);
+    setValue("")
+  }
+
   const getMessages = async () => {
     const options = {
       method: "POST",
@@ -55,13 +61,14 @@ const App = () => {
   }, [message, currentTitle])
 
   const currentChat = previousChats.filter(previousChats => previousChats.title === currentTitle)
+  const uniqueTitles = Array.from(new Set(previousChats.map(previousChat => previousChat.title)))
 
   return (
     <div className="app">
       <section className="side-bar">
         <button onClick={createNewChat}>+ New chat</button>
         <ul className="history">
-          <li>BLUGH</li>
+          {uniqueTitles?.map((uniqueTitle, index) => <li key={index} onClick={() => handleClick(uniqueTitle)}>{uniqueTitle}</li>)}
         </ul>
         <nav>
           <p>Made by Klaudia</p>
@@ -72,7 +79,7 @@ const App = () => {
         <ul className="feed">
           {currentChat?.map((chatMessage, index) => <li key={index}>
             <p className="role">{chatMessage.role}</p>
-            <p>{chatMessage.message}</p>
+            <p>{chatMessage.content}</p>
           </li>)}
         </ul>
         <div className="bottom-section">
