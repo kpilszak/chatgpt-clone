@@ -6,6 +6,12 @@ const App = () => {
   const [ previousChats, setPreviousChats ] = useState([])
   const [ currentTitle, setCurrentTitle ] = useState(null)
 
+  const createNewChat = () => {
+    setMessage(null);
+    setValue("")
+    setCurrentTitle(null)
+  }
+
   const getMessages = async () => {
     const options = {
       method: "POST",
@@ -48,10 +54,12 @@ const App = () => {
     }
   }, [message, currentTitle])
 
+  const currentChat = previousChats.filter(previousChats => previousChats.title === currentTitle)
+
   return (
     <div className="app">
       <section className="side-bar">
-        <button>+ New chat</button>
+        <button onClick={createNewChat}>+ New chat</button>
         <ul className="history">
           <li>BLUGH</li>
         </ul>
@@ -61,7 +69,12 @@ const App = () => {
       </section>
       <section className="main">
         {!currentTitle && <h1>KlaudiaGPT</h1>}
-        <ul className="feed"></ul>
+        <ul className="feed">
+          {currentChat?.map((chatMessage, index) => <li key={index}>
+            <p className="role">{chatMessage.role}</p>
+            <p>{chatMessage.message}</p>
+          </li>)}
+        </ul>
         <div className="bottom-section">
           <div className="input-container">
             <input value={value} onChange={(e) => setValue(e.target.value)}/>
