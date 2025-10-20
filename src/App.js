@@ -60,7 +60,7 @@ const App = () => {
         </nav>
       </section>
       <section className="main">
-        <h1>KlaudiaGPT</h1>
+        {!currentTitle && <h1>KlaudiaGPT</h1>}
         <ul className="feed"></ul>
         <div className="bottom-section">
           <div className="input-container">
